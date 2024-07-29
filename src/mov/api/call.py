@@ -26,7 +26,7 @@ def get_key():
     key = os.getenv('MOVIE_API_KEY')
     return key
 
-def req2list(load_dt='20120101') -> list:
+def req2list(load_dt='20120101'):
     _, data = req(load_dt)
     l = data['boxOfficeResult']['dailyBoxOfficeList']
     return l
@@ -40,7 +40,7 @@ def save2df(load_dt='20120101'):
     """airflow 호출 지점"""
     df = list2df(load_dt)
     df['load_dt'] = load_dt
-    df.to_parquet('~/tmp/test_parquet', partition_cols=['load_dt'])
+    df.to_parquet('~/tmp/test_parquet/', partition_cols=['load_dt'])
     print(df.head(5))
     return df
     #df.to_parquet('~/data/parquet/movie/{dt}/{dt}.parquet')
