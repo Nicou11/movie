@@ -25,11 +25,8 @@ def test_req2list():
 
 def test_list2df():
     df = list2df()
-    print(df)
     assert isinstance(df, pd.DataFrame)
     assert 'rnum' in df.columns
     assert 'openDt' in df.columns
     assert 'movieNm' in df.columns
     assert 'audiAcc' in df.columns
-
-
