@@ -5,15 +5,15 @@ import sys
 
 #dt = sys.argv[1]
 
-def req(load_dt=20120101):
-    url = gen_url(load_dt)
+def req(dt):
+    url = gen_url(dt)
     r = requests.get(url)
     code = r.status_code
     data = r.json()
     #print(data)
     return code, data
 
-def gen_url(dt=20120101):
+def gen_url(dt):
     base_url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
     # key = "6d73ca55adb7b40c2b042c67db5f37eb"
     key = get_key()
@@ -31,14 +31,14 @@ def req2list() -> list:
     l = data['boxOfficeResult']['dailyBoxOfficeList']
     return l
 
-def list2df(load_dt='20120101'):
+def list2df(dt):
     l = req2list()
     df = pd.DataFrame(l)
     return df
 
-def save2df(load_dt:'20120101'):
+def save2df(dt):
     """airflow 호출 지점"""
-    df = list2df(load_dt)
+    df = list2df(dt)
     #df1 = df.reindex(+["load_{dt2}"])
     #df1.loc[:, ["load_{dt2}"] = {dt2}
     df['load_dt'] = '20120101'
