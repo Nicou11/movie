@@ -5,8 +5,8 @@ import sys
 
 #dt = sys.argv[1]
 
-def req(dt=20120101):
-    url = gen_url(dt)
+def req(load_dt=20120101):
+    url = gen_url(load_dt)
     r = requests.get(url)
     code = r.status_code
     data = r.json()
@@ -31,13 +31,14 @@ def req2list() -> list:
     l = data['boxOfficeResult']['dailyBoxOfficeList']
     return l
 
-def list2df():
+def list2df(load_dt='20120101'):
     l = req2list()
     df = pd.DataFrame(l)
     return df
 
-def save2df():
-    df = list2df()
+def save2df(load_dt:'20120101'):
+    """airflow 호출 지점"""
+    df = list2df(load_dt)
     #df1 = df.reindex(+["load_{dt2}"])
     #df1.loc[:, ["load_{dt2}"] = {dt2}
     df['load_dt'] = '20120101'
