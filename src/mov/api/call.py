@@ -41,6 +41,5 @@ def save2df(load_dt='20120101'):
     df = list2df(load_dt)
     df['load_dt'] = load_dt
     df.to_parquet('~/tmp/test_parquet/', partition_cols=['load_dt'])
-    print(df.head(5))
     return df
     #df.to_parquet('~/data/parquet/movie/{dt}/{dt}.parquet')
