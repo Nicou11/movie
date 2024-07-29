@@ -1,8 +1,11 @@
 import requests
 import os
 import pandas as pd
+import sys
 
-def req(dt="20120101"):
+#dt = sys.argv[1]
+
+def req(dt=20120101):
     url = gen_url(dt)
     r = requests.get(url)
     code = r.status_code
@@ -10,7 +13,7 @@ def req(dt="20120101"):
     #print(data)
     return code, data
 
-def gen_url(dt="20120101"):
+def gen_url(dt=20120101):
     base_url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
     # key = "6d73ca55adb7b40c2b042c67db5f37eb"
     key = get_key()
@@ -32,3 +35,13 @@ def list2df():
     l = req2list()
     df = pd.DataFrame(l)
     return df
+
+def save2df():
+    df = list2df()
+    #df1 = df.reindex(+["load_{dt2}"])
+    #df1.loc[:, ["load_{dt2}"] = {dt2}
+    df['load_dt'] = '20120101'
+    df.to_parquet('~/tmp/test_parquet', partition_cols=['load_dt'])
+    print(df.head(5))
+    return df
+    #df.to_parquet('~/data/parquet/movie/{dt}/{dt}.parquet')

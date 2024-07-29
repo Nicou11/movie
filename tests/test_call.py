@@ -1,4 +1,4 @@
-from mov.api.call import gen_url, req, get_key, req2list, list2df
+from mov.api.call import gen_url, req, get_key, req2list, list2df, save2df
 import pandas as pd
 
 def test_비밀키숨기기():
@@ -30,3 +30,8 @@ def test_list2df():
     assert 'openDt' in df.columns
     assert 'movieNm' in df.columns
     assert 'audiAcc' in df.columns
+
+def test_save2df():
+    df = save2df()
+    assert isinstance(df, pd.DataFrame)
+    assert 'load_dt' in df.columns
