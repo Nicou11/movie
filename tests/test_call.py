@@ -12,8 +12,8 @@ def test_유알엘테스트():
     assert "kobis" in url
 
 
-def test_req():
-    code, data = req('20230101')
+def test_req(load_dt='20120101'):
+    code, data = req('20120101')
     assert code == 200
 
 
@@ -33,6 +33,6 @@ def test_list2df():
     assert 'audiAcc' in df.columns
 
 def test_save2df():
-    df = save2df(load_dt='20241231')
+    df = save2df()
     assert isinstance(df, pd.DataFrame)
     assert 'load_dt' in df.columns
