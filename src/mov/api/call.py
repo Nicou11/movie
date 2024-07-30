@@ -43,3 +43,6 @@ def save2df(load_dt='20120101'):
     df.to_parquet('~/tmp/test_parquet/', partition_cols=['load_dt'])
     return df
     #df.to_parquet('~/data/parquet/movie/{dt}/{dt}.parquet')
+
+def echo(yaho):
+    return yaho
