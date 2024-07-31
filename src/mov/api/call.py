@@ -5,19 +5,22 @@ import sys
 
 #dt = sys.argv[1]
 
-def req(load_dt="20120101"):
-    url = gen_url(load_dt)
+def req(load_dt="20120101", url_param={}):
+    url = gen_url(load_dt, url_param)
     r = requests.get(url)
     code = r.status_code
     data = r.json()
     #print(data)
     return code, data
 
-def gen_url(dt='20120101'):
+def gen_url(dt='20120101', url_param={"multiMovieYn":"N"}):
     base_url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
     # key = "6d73ca55adb7b40c2b042c67db5f37eb"
     key = get_key()
     url = f"{base_url}?key={key}&targetDt={dt}"
+    for k, v in url_param.items():
+        #url = url + "&multiMovieYn=Y"
+        url = url + f"&{k}={v}"
 
     return url
 
@@ -26,19 +29,19 @@ def get_key():
     key = os.getenv('MOVIE_API_KEY')
     return key
 
-def req2list(load_dt='20120101'):
-    _, data = req(load_dt)
+def req2list(load_dt='20120101', url_param={}):
+    _, data = req(load_dt, url_param)
     l = data['boxOfficeResult']['dailyBoxOfficeList']
     return l
 
-def list2df(load_dt='20120101'):
-    l = req2list(load_dt)
+def list2df(load_dt='20120101', url_param={}):
+    l = req2list(load_dt, url_param)
     df = pd.DataFrame(l)
     return df
 
-def save2df(load_dt='20120101'):
+def save2df(load_dt='20120101', url_param={}):
     """airflow 호출 지점"""
-    df = list2df(load_dt)
+    df = list2df(load_dt, url_param)
     df['load_dt'] = load_dt
     df.to_parquet('~/tmp/test_parquet/', partition_cols=['load_dt'])
     return df
