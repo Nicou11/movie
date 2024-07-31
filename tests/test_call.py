@@ -11,6 +11,9 @@ def test_유알엘테스트():
     assert "http" in url
     assert "kobis" in url
 
+    d = {"multiMovieYn": "N"}
+    url = gen_url(url_param = d)
+    assert "multiMovieYn" in url
 
 def test_req(load_dt='20120101'):
     code, data = req('20120101')
@@ -19,10 +22,9 @@ def test_req(load_dt='20120101'):
 
 def test_req2list():
     l = req2list()
-    v = l[2]
+    v = l[0]
     assert len(l) > 0
     assert 'rnum' in v.keys()
-    assert v['rankInten'] == '-1'
 
 def test_list2df():
     df = list2df()
@@ -36,17 +38,15 @@ def test_save2df():
     df = save2df()
     assert isinstance(df, pd.DataFrame)
     assert 'load_dt' in df.columns
+    assert len(df) == 10
 
 def test_echo():
     r = echo("hello")
     assert "hello"
 
 def test_apply_type2df():
-    df, num_cols = apply_type2df()
+    df = apply_type2df()
     assert isinstance(df, pd.DataFrame)
     num_cols = ['rnum', 'rank', 'rankInten', 'salesAmt', 'audiCnt', 'audiAcc', 'scrnCnt', 'showCnt', 'salesShare', 'salesInten', 'salesChange', 'audiInten', 'audiChange']
     for c in num_cols:
         assert df[c].dtype in ['int64', 'float64']
-
-
-

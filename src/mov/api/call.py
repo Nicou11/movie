@@ -13,7 +13,7 @@ def req(load_dt="20120101", url_param={}):
     #print(data)
     return code, data
 
-def gen_url(dt='20120101', url_param={"multiMovieYn":"N"}):
+def gen_url(dt='20120101', url_param={}):
     base_url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
     # key = "6d73ca55adb7b40c2b042c67db5f37eb"
     key = get_key()
@@ -43,9 +43,8 @@ def save2df(load_dt='20120101', url_param={}):
     """airflow 호출 지점"""
     df = list2df(load_dt, url_param)
     df['load_dt'] = load_dt
-    df.to_parquet('~/tmp/test_parquet/', partition_cols=['load_dt'])
+    #df.to_parquet('~/tmp/test_parquet/', partition_cols=['load_dt'])
     return df
-    #df.to_parquet('~/data/parquet/movie/{dt}/{dt}.parquet')
 
 def echo(yaho):
     return yaho
